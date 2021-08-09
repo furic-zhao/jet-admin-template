@@ -14,7 +14,7 @@ class List extends PureComponent {
           showTotal: total => `Total ${total} Items`,
         }}
         bordered
-        scroll={{ x: 1200 }}
+        scroll={{ x: true }}
         className={styles.table}
         columns={columns}
         simple

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
-import { Spin, Dropdown, Menu, Icon, Avatar } from 'antd'
+import { Spin, Dropdown, Menu, Avatar } from 'antd'
+import { LoginOutlined } from '@ant-design/icons'
 import styles from './index.module.less'
 
 export default class GlobalHeaderRight extends PureComponent {
@@ -13,7 +14,7 @@ export default class GlobalHeaderRight extends PureComponent {
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="logout">
-          <Icon type="logout" />退出登录
+          <LoginOutlined /> 退出登录
         </Menu.Item>
       </Menu>
     )

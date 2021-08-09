@@ -5,7 +5,7 @@ import List from './components/list'
 import Filter from './components/filter'
 import { searchtable } from '@/api'
 
-export default class User extends PureComponent {
+class User extends PureComponent {
   state = {
     dataSource: [],
     total: 0,
@@ -121,3 +121,5 @@ export default class User extends PureComponent {
     )
   }
 }
+
+export default User

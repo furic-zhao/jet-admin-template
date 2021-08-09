@@ -14,7 +14,7 @@ export default class dashboard extends Component {
     return (
       <div>
         <h1>jet-admin</h1>
-        <h3 style={{ marginBottom: 16 }}>现代响应式的中后台最佳实践解决方案</h3>
+        <h3 style={{ marginBottom: 16 }}>零配置即用的中后台应用解决方案</h3>
         <List
           bordered
           dataSource={data}

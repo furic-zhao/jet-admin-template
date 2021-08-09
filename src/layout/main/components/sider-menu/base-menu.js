@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { Menu, Icon } from 'antd'
+import { Menu } from 'antd'
+import Icon from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { urlToList } from '@/utils/utils'
 import { getMenuMatches } from './sider-menu-utils'
 import { isUrl } from '@/utils/utils'
 import styles from './index.module.less'
+import SvgIcon from "@/components/svgIcon";
 
 const { SubMenu } = Menu
 
@@ -18,7 +20,7 @@ const getIcon = icon => {
     return <Icon component={() => <img src={icon} alt="icon" className={styles.icon} />} />
   }
   if (typeof icon === 'string') {
-    return <Icon type={icon} />
+    return <Icon component={() => <SvgIcon iconName={icon} />} />
   }
   return icon
 }
@@ -60,8 +62,8 @@ export default class BaseMenu extends PureComponent {
                 <span>{name}</span>
               </span>
             ) : (
-              name
-            )
+                name
+              )
           }
           key={item.path}
         >
@@ -100,8 +102,8 @@ export default class BaseMenu extends PureComponent {
         onClick={
           isMobile
             ? () => {
-                onCollapse(true)
-              }
+              onCollapse(true)
+            }
             : undefined
         }
       >

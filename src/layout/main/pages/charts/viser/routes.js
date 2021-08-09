@@ -1,7 +1,7 @@
-import Loadable from '@/components/loadable'
+import { lazy } from 'react'
 
-const liquidFillGauge = Loadable(() => import('./pages/liquid-fill-gauge'))
-const pieRanged = Loadable(() => import('./pages/pie-ranged'))
+const liquidFillGauge = lazy(() => import('./pages/liquid-fill-gauge'))
+const pieRanged = lazy(() => import('./pages/pie-ranged'))
 
 
 export default [

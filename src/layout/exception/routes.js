@@ -1,8 +1,8 @@
-import Loadable from '@/components/loadable'
+import { lazy } from 'react';
 
-const page403 = Loadable(() => import('./pages/403'))
-const page404 = Loadable(() => import('./pages/404'))
-const page500 = Loadable(() => import('./pages/500'))
+const page403 = lazy(() => import('./pages/403'))
+const page404 = lazy(() => import('./pages/404'))
+const page500 = lazy(() => import('./pages/500'))
 
 export default [
   { path: '/exception/403', component: page403 },

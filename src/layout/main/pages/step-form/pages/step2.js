@@ -13,24 +13,22 @@ const formItemLayout = {
   },
 };
 
-@Form.create() @inject('Step') @observer
+@inject('Step') @observer
 class Step2 extends Component {
+  formRef = React.createRef()
   render() {
-    const { form, Step, history, submitting } = this.props;
-    const { getFieldDecorator, validateFields } = form;
+    const { Step, history, submitting } = this.props;
     const onPrev = () => {
       history.push('/form/step-form/step1');
     };
-    const onValidateForm = e => {
-      e.preventDefault();
-      validateFields((err, values) => {
-        if (!err) {
-          history.push('/form/step-form/step3')
-        }
+    const onValidateForm = () => {
+      // e.preventDefault();
+      this.formRef.current.validateFields().then(() => {
+        history.push('/form/step-form/step3')
       });
     };
     return (
-      <Form layout="horizontal" className={styles.stepForm}>
+      <Form ref={this.formRef} layout="horizontal" className={styles.stepForm}>
         <Alert
           closable
           showIcon
@@ -55,16 +53,13 @@ class Step2 extends Component {
           </span>
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
-        <Form.Item {...formItemLayout} label="支付密码" required={false}>
-          {getFieldDecorator('password', {
-            initialValue: '123456',
-            rules: [
-              {
-                required: true,
-                message: '需要支付密码才能进行支付',
-              },
-            ],
-          })(<Input type="password" autoComplete="off" style={{ width: '80%' }} />)}
+        <Form.Item {...formItemLayout} label="支付密码" name="password" rules={[
+          {
+            required: true,
+            message: '需要支付密码才能进行支付',
+          },
+        ]} required={false}>
+          <Input type="password" autoComplete="off" style={{ width: '80%' }} />
         </Form.Item>
         <Form.Item
           style={{ marginBottom: 8 }}

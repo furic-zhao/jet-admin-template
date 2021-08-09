@@ -1,5 +1,6 @@
 import React from 'react'
-import { Dropdown, Button, Icon, Menu } from 'antd'
+import { Dropdown, Button, Menu } from 'antd'
+import { BarsOutlined, DownOutlined } from '@ant-design/icons'
 
 const DropOption = ({
   onMenuClick,
@@ -16,8 +17,8 @@ const DropOption = ({
       {...dropdownProps}
     >
       <Button style={{ border: 'none', ...buttonStyle }}>
-        <Icon style={{ marginRight: 2 }} type="bars" />
-        <Icon type="down" />
+        <BarsOutlined style={{ marginRight: 2 }} />
+        <DownOutlined />
       </Button>
     </Dropdown>
   )

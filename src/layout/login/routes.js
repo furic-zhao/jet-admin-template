@@ -1,8 +1,8 @@
-import Loadable from '@/components/loadable'
+import { lazy } from 'react';
 
-const Login = Loadable(() => import('./pages/login'))
-const Register = Loadable(() => import('./pages/register'))
-const RegisterResult = Loadable(() => import('./pages/register-result'))
+const Login = lazy(() => import('./pages/login'))
+const Register = lazy(() => import('./pages/register'))
+const RegisterResult = lazy(() => import('./pages/register-result'))
 
 export default [
   { path: '/user/login', component: Login },

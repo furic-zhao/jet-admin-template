@@ -1,8 +1,8 @@
-import Loadable from '@/components/loadable'
+import { lazy } from 'react';
 
-const Step1 = Loadable(() => import('./pages/step1'))
-const Step2 = Loadable(() => import('./pages/step2'))
-const Step3 = Loadable(() => import('./pages/step3'))
+const Step1 = lazy(() => import('./pages/step1'))
+const Step2 = lazy(() => import('./pages/step2'))
+const Step3 = lazy(() => import('./pages/step3'))
 
 export default [
   { path: '/form/step-form/step1', component: Step1 },

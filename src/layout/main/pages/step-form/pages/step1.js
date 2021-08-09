@@ -14,80 +14,111 @@ const formItemLayout = {
   },
 };
 
-@Form.create() @inject('Step') @observer
-class Step1 extends Component {
+@inject('Step') @observer class Step1 extends Component {
+  formRef = React.createRef()
   render() {
-
-    const { form, Step } = this.props;
-    const { getFieldDecorator, validateFields } = form;
+    const { Step } = this.props;
     const onValidateForm = () => {
-      validateFields((err, values) => {
-        if (!err) {
-          Step.setStep(values)
-          const { history } = this.props;
-          history.push('/form/step-form/step2')
-        }
+      this.formRef.current.validateFields().then(values => {
+        Step.setStep(values)
+        const { history } = this.props;
+        history.push('/form/step-form/step2')
       });
     };
     return (
       <Fragment>
-        <Form layout="horizontal" className={styles.stepForm} hideRequiredMark>
-          <Form.Item {...formItemLayout} label="付款账户">
-            {getFieldDecorator('payAccount', {
-              initialValue: Step.step.payAccount,
-              rules: [{ required: true, message: '请选择付款账户' }],
-            })(
-              <Select placeholder="test@example.com">
-                <Option value="ant-design@alipay.com">ant-design@alipay.com</Option>
-              </Select>
-            )}
+        <Form ref={this.formRef} layout="horizontal" initialValues={Step.step} className={styles.stepForm} hideRequiredMark>
+          <Form.Item
+            label="付款账户"
+            name="payAccount"
+            rules={[
+              {
+                required: true,
+                message: '请选择付款账户',
+              },
+            ]}
+          >
+            <Select placeholder="test@example.com">
+              <Option value="ant-design@alipay.com">ant-design@alipay.com</Option>
+            </Select>
           </Form.Item>
-          <Form.Item {...formItemLayout} label="收款账户">
+          <Form.Item label="收款账户">
             <Input.Group compact>
-              <Select defaultValue="bank" style={{ width: 100 }}>
-                <Option value="bank">银行账户</Option>
+              <Select
+                defaultValue="alipay"
+                style={{
+                  width: 100,
+                }}
+              >
                 <Option value="alipay">支付宝</Option>
+                <Option value="bank">银行账户</Option>
               </Select>
-              {getFieldDecorator('receiverAccount', {
-                initialValue: Step.step.receiverAccount,
-                rules: [
-                  { required: true, message: '请输入收款人账户' },
-                  { type: 'email', message: '账户名应为邮箱格式' },
-                ],
-              })(<Input style={{ width: 'calc(100% - 100px)' }} placeholder="test@example.com" />)}
+              <Form.Item
+                noStyle
+                name="receiverAccount"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入收款人账户',
+                  },
+                  {
+                    type: 'email',
+                    message: '账户名应为邮箱格式',
+                  },
+                ]}
+              >
+                <Input
+                  style={{
+                    width: 'calc(100% - 100px)',
+                  }}
+                  placeholder="test@example.com"
+                />
+              </Form.Item>
             </Input.Group>
           </Form.Item>
-          <Form.Item {...formItemLayout} label="收款人姓名">
-            {getFieldDecorator('receiverName', {
-              initialValue: Step.step.receiverName,
-              rules: [{ required: true, message: '请输入收款人姓名' }],
-            })(<Input placeholder="请输入收款人姓名" />)}
+          <Form.Item
+            label="收款人姓名"
+            name="receiverName"
+            rules={[
+              {
+                required: true,
+                message: '请输入收款人姓名',
+              },
+            ]}
+          >
+            <Input placeholder="请输入收款人姓名" />
           </Form.Item>
-          <Form.Item {...formItemLayout} label="转账金额">
-            {getFieldDecorator('amount', {
-              initialValue: Step.step.amount,
-              rules: [
-                { required: true, message: '请输入转账金额' },
-                {
-                  pattern: /^(\d+)((?:\.\d+)?)$/,
-                  message: '请输入合法金额数字',
-                },
-              ],
-            })(<Input prefix="￥" placeholder="请输入金额" />)}
+          <Form.Item
+            label="转账金额"
+            name="amount"
+            rules={[
+              {
+                required: true,
+                message: '请输入转账金额',
+              },
+              {
+                pattern: /^(\d+)((?:\.\d+)?)$/,
+                message: '请输入合法金额数字',
+              },
+            ]}
+          >
+            <Input prefix="￥" placeholder="请输入金额" />
           </Form.Item>
           <Form.Item
             wrapperCol={{
-              xs: { span: 24, offset: 0 },
+              xs: {
+                span: 24,
+                offset: 0,
+              },
               sm: {
                 span: formItemLayout.wrapperCol.span,
                 offset: formItemLayout.labelCol.span,
               },
             }}
-            label=""
           >
             <Button type="primary" onClick={onValidateForm}>
               下一步
-            </Button>
+          </Button>
           </Form.Item>
         </Form>
         <Divider style={{ margin: '40px 0 24px' }} />

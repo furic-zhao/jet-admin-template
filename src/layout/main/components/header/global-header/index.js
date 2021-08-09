@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Icon } from 'antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import Debounce from 'lodash-decorators/debounce'
 import { Link } from 'react-router-dom'
 
@@ -25,6 +25,10 @@ export default class GlobalHeader extends PureComponent {
   }
   render() {
     const { collapsed, isMobile, logo } = this.props
+
+    const defaultRenderCollapsedButton = (collapsed?: boolean) =>
+      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+
     return (
       <div className={styles.header}>
         {isMobile && (
@@ -33,7 +37,7 @@ export default class GlobalHeader extends PureComponent {
           </Link>
         )}
         <span className={styles.trigger} onClick={this.toggle}>
-          <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />
+          {defaultRenderCollapsedButton(collapsed)}
         </span>
         <RightContent {...this.props} />
       </div>

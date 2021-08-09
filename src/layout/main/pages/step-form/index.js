@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, Suspense } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Card, Steps } from 'antd';
 import styles from './index.module.less';
 import routes from './routes';
+import LoadingPage from '@/components/loading-page'
 
 //注入store
 import { Provider } from 'mobx-react';
@@ -37,21 +38,23 @@ export default class StepForm extends Component {
               <Step title="确认转账信息" />
               <Step title="完成" />
             </Steps>
-            <Switch>
-              {routes.map((route, idx) => {
-                return route.component ? (
-                  <Route
-                    key={idx}
-                    path={route.path}
-                    exact={route.exact}
-                    name={route.name}
-                    render={props => (
-                      <route.component {...props} />
-                    )} />
-                ) : (null);
-              })}
-              <Redirect from="/form/step-form" to="/form/step-form/step1" />
-            </Switch>
+            <Suspense fallback={<LoadingPage />}>
+              <Switch>
+                {routes.map((route, idx) => {
+                  return route.component ? (
+                    <Route
+                      key={idx}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      render={props => (
+                        <route.component {...props} />
+                      )} />
+                  ) : (null);
+                })}
+                <Redirect from="/form/step-form" to="/form/step-form/step1" />
+              </Switch>
+            </Suspense>
           </Fragment>
         </Card>
       </Provider>

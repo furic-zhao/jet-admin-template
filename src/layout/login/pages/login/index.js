@@ -1,13 +1,16 @@
 import React from 'react'
 import { login } from '@/api'
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Button, Alert } from 'antd'
+import { Form, Input, Button, Alert } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import styles from './index.module.less'
 import auth from '@/utils/auth'
 
-@Form.create()
+// @Form.create()
 class App extends React.Component {
+  formRef = React.createRef()
+
   state = {
     // autoLogin: true,
     loginErrno: 0,
@@ -18,11 +21,12 @@ class App extends React.Component {
     document.title = '登录'
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    this.props.form.validateFields(async (err, values) => {
-      if (err) return
+  handleSubmit = () => {
+
+    this.formRef.current.validateFields().then(async (values) => {
+
       const res = await login(values)
+      console.log(res)
       if (res.errno !== 0) {
         this.setState({ loginErrno: res.errno, loginMsg: res.msg })
         return
@@ -32,7 +36,9 @@ class App extends React.Component {
 
       const { history } = this.props
       history.push('/')
+
     })
+
   }
 
   // changeAutoLogin = e => {
@@ -46,25 +52,19 @@ class App extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
     const { loginErrno, loginMsg } = this.state
     return (
       <div className={styles.loginPage} style={{ backgroundColor: this.props.bgc }}>
-        <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
+        <Form onFinish={this.handleSubmit} className={styles.loginForm} ref={this.formRef}>
           {loginErrno !== 0 && this.renderMessage(loginMsg)}
-          <Form.Item>
-            {getFieldDecorator('userName', {
-              rules: [{ required: true, message: '请输入用户名！' }],
-            })(
-              <Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名：admin" />
-            )}
+          <Form.Item name="userName" rules={[{ required: true, message: '请输入用户名！' }]}>
+
+            <Input size="large" prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名：admin" />
+
           </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: '请输入密码！' }],
-            })(
-              <Input size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码：888888" />
-            )}
+          <Form.Item name="password" rules={[{ required: true, message: '请输入密码！' }]}>
+
+            <Input size="large" prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码：888888" />
           </Form.Item>
           <Form.Item className={styles.last}>
             {/* <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
@@ -75,7 +75,7 @@ class App extends React.Component {
               登录
             </Button>
             <Link className={styles.loginFormReg} to="/user/register">
-            注册账户
+              注册账户
             </Link>
           </Form.Item>
         </Form>

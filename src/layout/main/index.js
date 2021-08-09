@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Layout } from 'antd';
-import DocumentTitle from 'react-document-title';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { ContainerQuery } from 'react-container-query';
-import classNames from 'classnames';
+// import { ContainerQuery } from 'react-container-query';
+// import classNames from 'classnames';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import { stringify } from 'qs';
 import { observer, inject } from 'mobx-react';
@@ -19,31 +19,32 @@ import logo from '@/assets/logo.svg';
 import styles from './index.module.less';
 import auth from '@/utils/auth';
 import routes from './routes';
+import LoadingPage from '@/components/loading-page';
 
-const query = {
-  'screen-xs': {
-    maxWidth: 575,
-  },
-  'screen-sm': {
-    minWidth: 576,
-    maxWidth: 767,
-  },
-  'screen-md': {
-    minWidth: 768,
-    maxWidth: 991,
-  },
-  'screen-lg': {
-    minWidth: 992,
-    maxWidth: 1199,
-  },
-  'screen-xl': {
-    minWidth: 1200,
-    maxWidth: 1599,
-  },
-  'screen-xxl': {
-    minWidth: 1600,
-  },
-};
+// const query = {
+//   'screen-xs': {
+//     maxWidth: 575,
+//   },
+//   'screen-sm': {
+//     minWidth: 576,
+//     maxWidth: 767,
+//   },
+//   'screen-md': {
+//     minWidth: 768,
+//     maxWidth: 991,
+//   },
+//   'screen-lg': {
+//     minWidth: 992,
+//     maxWidth: 1199,
+//   },
+//   'screen-xl': {
+//     minWidth: 1200,
+//     maxWidth: 1599,
+//   },
+//   'screen-xxl': {
+//     minWidth: 1600,
+//   },
+// };
 
 let isMobile;
 enquireScreen(b => {
@@ -155,21 +156,23 @@ enquireScreen(b => {
               {...this.state}
               {...this.props}
             >
-              <Switch>
-                {routes.map((route, idx) => {
-                  return route.component ? (
-                    <Route
-                      key={idx}
-                      path={route.path}
-                      exact={route.exact}
-                      name={route.name}
-                      render={props => (
-                        <route.component {...props} />
-                      )} />
-                  ) : (null);
-                })}
-                <Redirect from="/" to={baseRedirect} />
-              </Switch>
+              <Suspense fallback={<LoadingPage />}>
+                <Switch>
+                  {routes.map((route, idx) => {
+                    return route.component ? (
+                      <Route
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        name={route.name}
+                        render={props => (
+                          <route.component {...props} />
+                        )} />
+                    ) : (null);
+                  })}
+                  <Redirect from="/" to={baseRedirect} />
+                </Switch>
+              </Suspense>
             </GridContent>
           </Layout>
           <Footer />
@@ -178,13 +181,18 @@ enquireScreen(b => {
     );
 
     return (
-      <React.Fragment>
-        <DocumentTitle title={sysName}>
-          <ContainerQuery query={query}>
-            {params => <div className={classNames(params)}>{layout}</div>}
-          </ContainerQuery>
-        </DocumentTitle>
-      </React.Fragment>
+      <>
+        <HelmetProvider>
+          <Helmet>
+            <title>{sysName}</title>
+          </Helmet>
+        </HelmetProvider>
+        <React.Fragment>
+
+        <div>{layout}</div>
+
+        </React.Fragment>
+      </>
     );
   }
 }

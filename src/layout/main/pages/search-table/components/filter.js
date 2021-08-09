@@ -19,8 +19,8 @@ const TwoColProps = {
   xl: 96,
 }
 
-@Form.create()
 class Filter extends PureComponent {
+  formRef = React.createRef();
   handleFields = fields => {
     // const { createTime } = fields
     // if (createTime.length) {
@@ -29,67 +29,68 @@ class Filter extends PureComponent {
     //     moment(createTime[1]).format('YYYY-MM-DD'),
     //   ]
     // }
-    return fields
+    // return fields
   }
 
   handleSubmit = () => {
-    const { onFilterChange, form } = this.props
-    const { getFieldsValue } = form
+    // const { onFilterChange, form } = this.props
+    // const { getFieldsValue } = form
 
-    let fields = getFieldsValue()
-    fields = this.handleFields(fields)
-    onFilterChange(fields)
+    // let fields = getFieldsValue()
+    // fields = this.handleFields(fields)
+    // onFilterChange(fields)
   }
 
   handleReset = () => {
-    const { form } = this.props
-    const { getFieldsValue, setFieldsValue } = form
+    // const { form } = this.props
+    // const { getFieldsValue, setFieldsValue } = form
 
-    const fields = getFieldsValue()
-    for (let item in fields) {
-      if ({}.hasOwnProperty.call(fields, item)) {
-        if (fields[item] instanceof Array) {
-          fields[item] = []
-        } else {
-          fields[item] = undefined
-        }
-      }
-    }
-    setFieldsValue(fields)
-    this.handleSubmit()
+    // const fields = getFieldsValue()
+    // for (let item in fields) {
+    //   if ({}.hasOwnProperty.call(fields, item)) {
+    //     if (fields[item] instanceof Array) {
+    //       fields[item] = []
+    //     } else {
+    //       fields[item] = undefined
+    //     }
+    //   }
+    // }
+    // setFieldsValue(fields)
+    // this.handleSubmit()
   }
   handleChange = (key, values) => {
-    const { form, onFilterChange } = this.props
-    const { getFieldsValue } = form
+    // const { form, onFilterChange } = this.props
+    // const { getFieldsValue } = form
 
-    let fields = getFieldsValue()
-    fields[key] = values
-    fields = this.handleFields(fields)
-    onFilterChange(fields)
+    // let fields = getFieldsValue()
+    // fields[key] = values
+    // fields = this.handleFields(fields)
+    // onFilterChange(fields)
   }
 
   render() {
     const { filter, form } = this.props
-    const { getFieldDecorator } = form
+    // const { getFieldDecorator } = form
     const { name, address } = filter
 
     return (
-      <Row gutter={24}>
-        <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-          {getFieldDecorator('name', { initialValue: name })(
+      <Form ref={this.formRef}>
+        <Row gutter={24}>
+          <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
+
             <Search
               placeholder={`Search Name`}
               onSearch={this.handleSubmit}
             />
-          )}
-        </Col>
-        <Col
-          {...ColProps}
-          xl={{ span: 4 }}
-          md={{ span: 8 }}
-          id="addressCascader"
-        >
-          {getFieldDecorator('address', { initialValue: address })(
+
+          </Col>
+          <Col
+            {...ColProps}
+            xl={{ span: 4 }}
+            md={{ span: 8 }}
+            id="addressCascader"
+          >
+
             <Cascader
               style={{ width: '100%' }}
               options={city}
@@ -99,31 +100,32 @@ class Filter extends PureComponent {
                 document.getElementById('addressCascader')
               }
             />
-          )}
-        </Col>
-        <Col
-          {...TwoColProps}
-          xl={{ span: 10 }}
-          md={{ span: 24 }}
-          sm={{ span: 24 }}
-        >
-          <div>
-            <Button
-              style={{ marginRight: 8 }}
-              type="primary"
-              className="margin-right"
-              onClick={this.handleSubmit}
-            >
-              Search
+
+          </Col>
+          <Col
+            {...TwoColProps}
+            xl={{ span: 10 }}
+            md={{ span: 24 }}
+            sm={{ span: 24 }}
+          >
+            <div>
+              <Button
+                style={{ marginRight: 8 }}
+                type="primary"
+                className="margin-right"
+                onClick={this.handleSubmit}
+              >
+                Search
             </Button>
-            <Button onClick={this.handleReset}>
-              Reset
+              <Button onClick={this.handleReset}>
+                Reset
             </Button>
-          </div>
+            </div>
 
 
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Form>
     )
   }
 }

@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Suspense, Fragment } from 'react'
 import { Redirect, Route, Switch, Link } from 'react-router-dom'
-import { Icon } from 'antd'
+import { CopyrightCircleOutlined } from '@ant-design/icons'
 import GlobalFooter from './components/global-footer'
 import styles from './index.module.less'
 import logo from '@/assets/logo.svg'
 
 import routes from './routes'
-
+import LoadingPage from '@/components/loading-page'
 /**
  * 注册布局页脚导航
  */
@@ -30,7 +30,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2020 chanjet-fe
+    Copyright <CopyrightCircleOutlined /> 2020 chanjet-fe
   </Fragment>
 )
 
@@ -49,21 +49,23 @@ export default class LoginLayout extends React.PureComponent {
               </div>
               <div className={styles.desc}>零配置即用的中后台应用解决方案</div>
             </div>
-            <Switch>
-              {routes.map((route, idx) => {
-                return route.component ? (
-                  <Route
-                    key={idx}
-                    path={route.path}
-                    exact={route.exact}
-                    name={route.name}
-                    render={props => (
-                      <route.component {...props} />
-                    )} />
-                ) : (null)
-              })}
-              <Redirect from="/user" to="/user/login" />
-            </Switch>
+            <Suspense fallback={<LoadingPage />}>
+              <Switch>
+                {routes.map((route, idx) => {
+                  return route.component ? (
+                    <Route
+                      key={idx}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      render={props => (
+                        <route.component {...props} />
+                      )} />
+                  ) : (null)
+                })}
+                <Redirect from="/user" to="/user/login" />
+              </Switch>
+            </Suspense>
           </div>
           <GlobalFooter links={links} copyright={copyright} />
         </div>

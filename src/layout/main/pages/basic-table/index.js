@@ -3,7 +3,7 @@ import List from './components/list'
 import { basictable } from '@/api'
 import Service from './service'
 
-export default class basicTable extends Component {
+class basicTable extends Component {
   state = {
     dataSource: [],
     total: 0,
@@ -61,3 +61,5 @@ export default class basicTable extends Component {
     )
   }
 }
+
+export default basicTable

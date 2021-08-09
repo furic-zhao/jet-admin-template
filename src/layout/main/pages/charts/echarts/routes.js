@@ -1,13 +1,13 @@
-import Loadable from '@/components/loadable'
+import { lazy } from 'react'
 
-const verticalBar = Loadable(() => import('./pages/vertical-bar'))
-const horizontalBar = Loadable(() => import('./pages/horizontal-bar'))
-const barStack = Loadable(() => import('./pages/bar-stack'))
-const pieSimple = Loadable(() => import('./pages/pie-simple'))
-const lineSimple = Loadable(() => import('./pages/line-simple'))
-const pieDoughnut = Loadable(() => import('./pages/pie-doughnut'))
-const Radar = Loadable(() => import('./pages/radar'))
-const Funnel = Loadable(() => import('./pages/funnel'))
+const verticalBar = lazy(() => import('./pages/vertical-bar'))
+const horizontalBar = lazy(() => import('./pages/horizontal-bar'))
+const barStack = lazy(() => import('./pages/bar-stack'))
+const pieSimple = lazy(() => import('./pages/pie-simple'))
+const lineSimple = lazy(() => import('./pages/line-simple'))
+const pieDoughnut = lazy(() => import('./pages/pie-doughnut'))
+const Radar = lazy(() => import('./pages/radar'))
+const Funnel = lazy(() => import('./pages/funnel'))
 
 export default [
   { path: '/charts/echarts/vertical-bar', component: verticalBar },

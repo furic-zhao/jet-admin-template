@@ -3,7 +3,7 @@ import { isUrl } from '@/utils/utils'
 const menuData = [
   {
     name: '首页',
-    icon: 'dashboard',
+    icon: 'home',
     path: 'dashboard'
   },
   {
@@ -39,7 +39,7 @@ const menuData = [
   },
   {
     name: '图表',
-    icon: 'line-chart',
+    icon: 'chart',
     path: 'charts',
     children: [
       {
@@ -54,7 +54,7 @@ const menuData = [
   },
   {
     name: '异常页',
-    icon: 'warning',
+    icon: 'error',
     path: 'exception',
     children: [
       {

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import { Layout, Icon } from 'antd'
+import { Layout } from 'antd'
+import { CopyrightCircleOutlined } from '@ant-design/icons'
 import GlobalFooter from './global-footer'
 
 const { Footer } = Layout
@@ -22,7 +23,7 @@ const FooterView = () => (
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2019 塞伯坦前端架构组
+          Copyright <CopyrightCircleOutlined /> 2019 chanjet-fe
         </Fragment>
       }
     />

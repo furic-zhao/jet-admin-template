@@ -7,9 +7,9 @@ export const Login = (req, res) => {
 
     const userInfo = {
       "id": "155",
-      "avatar": 'https://s.gravatar.com/avatar/e29e4fea91ed22e85a326aec93a01781?size=496&default=retro',
+      "avatar": 'https://avatars0.githubusercontent.com/u/9346030?s=460&u=b3582981981df49b355ed93c236344e67821dd69&v=4',
       "name": "admin",
-      "nickName": "赵Sir"
+      "nickName": "furic"
     }
 
     res.send({
@@ -17,7 +17,7 @@ export const Login = (req, res) => {
       msg: '',
       data: {
         "userInfo": userInfo,
-        "clientToken": userInfo.id + new Date()*1
+        "clientToken": userInfo.id + new Date() * 1
       }
     })
     return

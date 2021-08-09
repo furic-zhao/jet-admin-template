@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon } from 'antd';
+import { CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import styles from './result.module.less';
 
 export default function Result({
@@ -13,8 +13,8 @@ export default function Result({
   ...restProps
 }) {
   const iconMap = {
-    error: <Icon className={styles.error} type="close-circle" />,
-    success: <Icon className={styles.success} type="check-circle" />,
+    error: <CloseCircleOutlined className={styles.error} />,
+    success: <CheckCircleOutlined className={styles.success} />,
   };
   const clsString = classNames(styles.result, className);
   return (

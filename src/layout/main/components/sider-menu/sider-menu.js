@@ -1,12 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent,lazy } from 'react'
 import { Layout } from 'antd'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import styles from './index.module.less'
 import { getDefaultCollapsedSubMenus } from './sider-menu-utils'
-import Loadable from '@/components/loadable'
 
-const BaseMenu = Loadable(() => import('./base-menu'))
+const BaseMenu = lazy(() => import('./base-menu'))
 const { Sider } = Layout
 
 let firstMount = true
